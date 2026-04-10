@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔒 Birthday Protocol</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
+    <div class="glow-overlay"></div>
+    
+    <!-- Secret Command Input (Hidden) -->
+    <input type="text" id="secretInput" class="secret-input" autocomplete="off" placeholder="">
+    
+    <!-- Screen 1: System Lock (Entry) -->
+    <section id="screen-lock" class="screen active">
+        <div class="lock-container">
+            <div class="lock-icon">
+                <span class="lock-emoji">🔒</span>
+                <div class="lock-pulse"></div>
+            </div>
+            <h1 class="system-title">SYSTEM LOCKED</h1>
+            <p class="system-status" id="lockStatus">User not recognized</p>
+            <button class="cta-button" id="initScanBtn">
+                <span class="btn-text">Click to initialize identity scan</span>
+                <span class="btn-icon">→</span>
+            </button>
+        </div>
+        <div class="scan-overlay" id="scanOverlay">
+            <div class="scan-line"></div>
+            <div class="scan-text">SCANNING...</div>
+        </div>
+    </section>
+
+    <!-- Screen 2: Identity Reveal -->
+    <section id="screen-identity" class="screen">
+        <div class="identity-container">
+            <div class="identity-header">
+                <span class="check-icon">✓</span>
+                <span class="identity-label">IDENTITY VERIFIED</span>
+            </div>
+            <div class="identity-card">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="user-avatar" id="userAvatar">DS</div>
+                    <h2 class="user-name" id="userName">Dev Sally</h2>
+                    <div class="user-status">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Special Day Identified 🎂</span>
+                    </div>
+                </div>
+            </div>
+            <p class="identity-message">Proceeding to security verification...</p>
+        </div>
+    </section>
+
+    <!-- Screen 3: Level 1 - Human Verification -->
+    <section id="screen-level1" class="screen">
+        <div class="level-container">
+            <div class="level-header">
+                <span class="level-badge">LEVEL 1</span>
+                <h2 class="level-title">Human Verification</h2>
+                <p class="level-subtitle">Select all traits that apply to Dev Sally</p>
+            </div>
+            <div class="verification-grid" id="verificationGrid">
+                <button class="verify-item" data-correct="true" data-selected="false">
+                    <span class="item-icon">🐛</span>
+                    <span class="item-text">Loves debugging</span>
+                    <span class="item-check">✓</span>
+                </button>
+                <button class="verify-item" data-correct="false" data-selected="false">
+                    <span class="item-icon">🧹</span>
+                    <span class="item-text">Hates clean code</span>
+                    <span class="item-check">✗</span>
+                </button>
+                <button class="verify-item" data-correct="true" data-selected="false">
+                    <span class="item-icon">☕</span>
+                    <span class="item-text">Runs on coffee</span>
+                    <span class="item-check">✓</span>
+                </button>
+                <button class="verify-item" data-correct="true" data-selected="false">
+                    <span class="item-icon">🚀</span>
+                    <span class="item-text">Builds amazing things</span>
+                    <span class="item-check">✓</span>
+                </button>
+            </div>
+            <div class="validation-feedback" id="level1Feedback"></div>
+            <button class="submit-button" id="level1Submit" disabled>
+                <span>Verify Identity</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Screen 4: Level 2 - Memory Input -->
+    <section id="screen-level2" class="screen">
+        <div class="level-container">
+            <div class="level-header">
+                <span class="level-badge">LEVEL 2</span>
+                <h2 class="level-title">Memory Input</h2>
+                <p class="level-subtitle">Complete the statement about Dev Sally</p>
+            </div>
+            <div class="memory-prompt">
+                <p class="prompt-text">"Dev Sally is known for ________"</p>
+                <div class="input-container">
+                    <span class="input-cursor">></span>
+                    <input type="text" id="memoryInput" class="terminal-input" placeholder="Type your answer..." autocomplete="off">
+                    <span class="input-blink">_</span>
+                </div>
+            </div>
+            <div class="memory-response" id="memoryResponse"></div>
+            <button class="submit-button" id="level2Submit">
+                <span>Confirm Memory</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Screen 5: Level 3 - Secret Code -->
+    <section id="screen-level3" class="screen">
+        <div class="level-container">
+            <div class="level-header">
+                <span class="level-badge">LEVEL 3</span>
+                <h2 class="level-title">Secret Code</h2>
+                <p class="level-subtitle">Enter the access code to proceed</p>
+            </div>
+            <div class="code-prompt">
+                <div class="code-hint">
+                    <span class="hint-icon">💡</span>
+                    <span class="hint-text">Hint: It's something people say today 😉</span>
+                </div>
+                <div class="input-container code-input-container">
+                    <span class="input-cursor">></span>
+                    <input type="text" id="codeInput" class="terminal-input code-input" placeholder="Enter access code..." autocomplete="off">
+                    <span class="input-blink">_</span>
+                </div>
+                <div class="attempts-counter" id="attemptsCounter">Attempts: 0/3</div>
+            </div>
+            <div class="code-response" id="codeResponse"></div>
+            <button class="submit-button" id="level3Submit">
+                <span>Unlock System</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Screen 6: Progress Check -->
+    <section id="screen-progress" class="screen">
+        <div class="progress-container">
+            <h2 class="progress-title">Verifying Protocol...</h2>
+            <div class="progress-checklist" id="progressChecklist">
+                <div class="checklist-item" data-status="pending">
+                    <span class="checklist-icon">○</span>
+                    <span class="checklist-text">Identity Verified</span>
+                </div>
+                <div class="checklist-item" data-status="pending">
+                    <span class="checklist-icon">○</span>
+                    <span class="checklist-text">Memory Confirmed</span>
+                </div>
+                <div class="checklist-item" data-status="pending">
+                    <span class="checklist-icon">○</span>
+                    <span class="checklist-text">Code Accepted</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-status" id="progressStatus">Initializing...</div>
+        </div>
+    </section>
+
+    <!-- Screen 7: Final Reveal -->
+    <section id="screen-reveal" class="screen">
+        <div class="reveal-container">
+            <div class="access-granted" id="accessGranted">
+                <span class="granted-icon">🔓</span>
+                <h1 class="granted-title">ACCESS GRANTED</h1>
+            </div>
+            <div class="protocol-init" id="protocolInit">
+                <div class="loading-spinner"></div>
+                <p class="protocol-text">Initializing Birthday Protocol...</p>
+            </div>
+            <div class="birthday-message" id="birthdayMessage">
+                <div class="message-glow"></div>
+                <div class="message-content">
+                    <div class="cake-emoji">🎂</div>
+                    <h2 class="birthday-title">Happy Birthday, Dev Sally!</h2>
+                    <div class="typing-text" id="typingText"></div>
+                    <div class="message-signature">
+                        <span class="sig-code">// From your fellow developers</span>
+                        <span class="sig-emoji">💙</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+    </section>
+
+    <!-- Easter Egg: Legendary Mode -->
+    <div class="legendary-overlay" id="legendaryOverlay">
+        <div class="legendary-content">
+            <span class="legendary-icon">🔥</span>
+            <h2 class="legendary-title">LEGENDARY MODE ACTIVATED</h2>
+            <p class="legendary-text">Dev Sally status: MAXIMUM OVERDRIVE</p>
+        </div>
+    </div>
+
+    <!-- Hidden Message Easter Egg -->
+    <div class="hidden-message" id="hiddenMessage">
+        <p>🎮 Cheat code unlocked: You're absolutely incredible! 🎮</p>
+    </div>
+
+    <!-- Console Easter Egg (visible briefly) -->
+    <div class="console-hint" id="consoleHint">
+        <span class="console-icon">⌘</span>
+        <span>Check the console for secrets...</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
